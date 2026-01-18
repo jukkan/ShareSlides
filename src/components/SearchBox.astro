@@ -1,0 +1,109 @@
+---
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = "Search decks..." } = Astro.props;
+---
+
+<div class="search-box">
+  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.3-4.3"></path>
+  </svg>
+  <input 
+    type="search" 
+    id="deck-search" 
+    placeholder={placeholder}
+    autocomplete="off"
+  />
+  <button type="button" class="clear-btn" aria-label="Clear search" hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6 6 18"></path>
+      <path d="m6 6 12 12"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .search-box {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 3rem;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .clear-btn:hover {
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+
+  .clear-btn[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById('deck-search') as HTMLInputElement;
+  const clearBtn = document.querySelector('.clear-btn') as HTMLButtonElement;
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase().trim();
+    clearBtn.hidden = query.length === 0;
+    
+    // Dispatch custom event for filtering
+    document.dispatchEvent(new CustomEvent('deck-search', { detail: { query } }));
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    searchInput.value = '';
+    clearBtn.hidden = true;
+    document.dispatchEvent(new CustomEvent('deck-search', { detail: { query: '' } }));
+    searchInput.focus();
+  });
+</script>

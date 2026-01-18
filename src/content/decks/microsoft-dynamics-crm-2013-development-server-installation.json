@@ -1,0 +1,16 @@
+{
+  "slug": "microsoft-dynamics-crm-2013-development-server-installation",
+  "title": "Microsoft Dynamics CRM 2013 development server installation",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/microsoft-dynamics-crm-2013-development-server-installation/deck.pdf",
+    "cover": "/decks/microsoft-dynamics-crm-2013-development-server-installation/cover.webp"
+  },
+  "description": "How to setup a single server development environment for Microsoft Dynamics CRM 2013 on a Windows Azure virtual machine that can leverage the MSDN subscriber benefits for Azure Credits.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/microsoft-dynamics-crm-2013-development-server-installation/26983930",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=microsoft-dynamics-crm-2013-development-server-installation"
+  },
+  "uploadedAt": "2013-10-08T11:12:41Z"
+}

@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <div class="container">
+    <article class="about-page">
+      <h1>About ShareSlides</h1>
+      
+      <p>
+        This site is for sharing the slide decks I've presented over the years. 
+        They used to be hosted on SlideShare. But then that company got sold and 
+        ended up becoming a paywalled skeleton of what it used to be.
+      </p>
+      
+      <p>
+        I want a place where I can easily share, view and download slides with 
+        minimal friction. So, I asked GitHub Copilot and Claude Opus 4.5 to build 
+        me one. And here it is, running on GitHub Pages.
+      </p>
+
+      <div class="back-link">
+        <a href="/">← Browse all decks</a>
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 0;
+  }
+
+  h1 {
+    margin: 0 0 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0 0 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  .back-link {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-link a {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>

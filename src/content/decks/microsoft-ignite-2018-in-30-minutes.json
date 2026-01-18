@@ -1,0 +1,16 @@
+{
+  "slug": "microsoft-ignite-2018-in-30-minutes",
+  "title": "Microsoft Ignite 2018 in 30 Minutes",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/microsoft-ignite-2018-in-30-minutes/deck.pdf",
+    "cover": "/decks/microsoft-ignite-2018-in-30-minutes/cover.webp"
+  },
+  "description": "My presentation at Finnish Dynamics User Group (FDUG) meeting on 2018-10-18. What were the highlights of this year's Ignite conference for the Dynamics 365 professionals & how the Power Platform has taken the game to a whole new level. Includes links to Ignite session recordings from where much of the material in this presentation has been collected from.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/microsoft-ignite-2018-in-30-minutes/120035818",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=microsoft-ignite-2018-in-30-minutes"
+  },
+  "uploadedAt": "2018-10-19T15:58:07Z"
+}

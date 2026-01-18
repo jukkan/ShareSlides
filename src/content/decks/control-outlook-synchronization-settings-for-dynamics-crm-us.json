@@ -1,0 +1,16 @@
+{
+  "slug": "control-outlook-synchronization-settings-for-dynamics-crm-us",
+  "title": "Control Outlook Synchronization Settings for Dynamics CRM users",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/control-outlook-synchronization-settings-for-dynamics-crm-us/deck.pdf",
+    "cover": "/decks/control-outlook-synchronization-settings-for-dynamics-crm-us/cover.webp"
+  },
+  "description": "Use the XrmToolBox Sync Filter Manager to configure Outlook synchronization filters for Microsoft Dynamics CRM users. This tutorial shows 3 common scenarios for how to modify the contact synchronization settings.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/control-outlook-synchronization-settings-for-dynamics-crm-users/33126114",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=control-outlook-synchronization-settings-for-dynamics-crm-users"
+  },
+  "uploadedAt": "2014-04-04T06:56:22Z"
+}

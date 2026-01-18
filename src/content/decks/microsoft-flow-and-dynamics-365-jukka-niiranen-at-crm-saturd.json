@@ -1,0 +1,16 @@
+{
+  "slug": "microsoft-flow-and-dynamics-365-jukka-niiranen-at-crm-saturd",
+  "title": "Microsoft Flow and Dynamics 365 - Jukka Niiranen at CRM Saturday Oslo, 2017-08-26",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/microsoft-flow-and-dynamics-365-jukka-niiranen-at-crm-saturd/deck.pdf",
+    "cover": "/decks/microsoft-flow-and-dynamics-365-jukka-niiranen-at-crm-saturd/cover.webp"
+  },
+  "description": "My session at CRM Saturday Oslo looked at the positioning of Flow in the MS cloud stack, compared Flow to the traditional Dynamics 365 workflow engine and gave some guidance on how to administer Flows when deploying the business logic into production environments.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/microsoft-flow-and-dynamics-365-jukka-niiranen-at-crm-saturday-oslo-20170826/79258346",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=microsoft-flow-and-dynamics-365-jukka-niiranen-at-crm-saturday-oslo-20170826"
+  },
+  "uploadedAt": "2017-08-29T17:07:10Z"
+}

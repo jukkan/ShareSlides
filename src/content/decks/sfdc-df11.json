@@ -1,0 +1,16 @@
+{
+  "slug": "sfdc-df11",
+  "title": "#SFDC #DF11",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/sfdc-df11/deck.pdf",
+    "cover": "/decks/sfdc-df11/cover.webp"
+  },
+  "description": "Screenshots from Salesforce.com Dreamforce 11 keynote presentation",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/sfdc-df11/9091646",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=sfdc-df11"
+  },
+  "uploadedAt": "2011-09-01T00:55:21Z"
+}

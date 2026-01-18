@@ -1,0 +1,16 @@
+{
+  "slug": "microsoft-dynamics-crm-2013-customization-and-the-platform-e",
+  "title": "Microsoft Dynamics CRM 2013 Customization and The Platform Evolution",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/microsoft-dynamics-crm-2013-customization-and-the-platform-e/deck.pdf",
+    "cover": "/decks/microsoft-dynamics-crm-2013-customization-and-the-platform-e/cover.webp"
+  },
+  "description": "Update: full transcript now available on my blog: http://niiranen.eu/crm/dynamics-crm-platform-evolution-part-1-history/\r\n\r\nMSDynamicsWorld.com webcast on how the Dynamics CRM platform has evolved over the years and what it means to the system customizer, especially with the latest Microsoft Dynamics CRM 2013 product version that presents a major paradigm shift in terms of the user interface. Includes recommendations on how to deliver a better user experience for your CRM system users and what you need to change in your solution design approach compared to some of the earlier versions.\r\n\r\nSee a recording of this live webcast at https://www.youtube.com/watch?v=WjT6Ku3E1Vw or just check the last slide of the presentation.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/microsoft-dynamics-crm-2013-customization-and-the-platform-evolution/35223322",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=microsoft-dynamics-crm-2013-customization-and-the-platform-evolution"
+  },
+  "uploadedAt": "2014-05-28T11:42:26Z"
+}

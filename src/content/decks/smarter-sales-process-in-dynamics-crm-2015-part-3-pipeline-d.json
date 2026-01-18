@@ -1,0 +1,16 @@
+{
+  "slug": "smarter-sales-process-in-dynamics-crm-2015-part-3-pipeline-d",
+  "title": "Smarter Sales Process in Dynamics CRM 2015 - Part 3: Pipeline Development",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/smarter-sales-process-in-dynamics-crm-2015-part-3-pipeline-d/deck.pdf",
+    "cover": "/decks/smarter-sales-process-in-dynamics-crm-2015-part-3-pipeline-d/cover.webp"
+  },
+  "description": "Webcast notes from \"A Non-Developer's Guide to Smarter Sales Processes in Microsoft Dynamics CRM 2015\", as presented on MSDynamicsWorld.com on May 6th, 2015. This third and final part demonstrates how we can customize CRM to show us a historical trend of how the sales pipeline has developed over time, by capturing data into a custom snapshot entity.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/smarter-sales-process-in-dynamics-crm-2015-part-3-pipeline-development/48959451",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=smarter-sales-process-in-dynamics-crm-2015-part-3-pipeline-development"
+  },
+  "uploadedAt": "2015-06-03T19:47:23Z"
+}

@@ -1,16 +1,277 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllDecks, getAllTags } from '../lib/decks';
+import type { Deck } from '../types/deck';
 
+const decks = getAllDecks();
+const tags = getAllTags();
+
+const langNames: Record<string, string> = {
+  en: 'EN', fr: 'FR', de: 'DE', es: 'ES', fi: 'FI'
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Browse Decks" showSearch={true}>
+  <div class="container">
+    <div class="toolbar">
+      <div class="tag-filters" id="tag-filters">
+        {tags.map(tag => (
+          <button type="button" class="tag-btn" data-tag={tag}>{tag}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="results-bar">
+      <span id="count">{decks.length} decks</span>
+      <button type="button" id="clear-filters" class="clear-btn" hidden>Clear filters</button>
+    </div>
+
+    <div class="grid" id="grid">
+      {decks.map((deck) => (
+        <article class="card" data-title={deck.title.toLowerCase()} data-tags={deck.tags.join(',')} data-description={(deck.description || '').toLowerCase()}>
+          <a href={`/deck/${deck.slug}`}>
+            <div class="card-cover">
+              <img src={deck.assets.cover} alt="" loading="lazy" onerror="this.src='/placeholder-cover.svg'" />
+              <span class="lang-badge">{langNames[deck.language] || deck.language.toUpperCase()}</span>
+            </div>
+            <div class="card-body">
+              <h2>{deck.title}</h2>
+              {deck.uploadedAt && (
+                <time class="card-date" datetime={deck.uploadedAt}>
+                  {new Date(deck.uploadedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+              )}
+              <div class="card-tags">
+                {deck.tags.slice(0, 3).map(t => <span class="tag">{t}</span>)}
+              </div>
+              {deck.legacyStats && (
+                <div class="card-stats">
+                  <span title="Views">👁️ {deck.legacyStats.views.toLocaleString()}</span>
+                  <span title="Downloads">⬇️ {deck.legacyStats.downloads.toLocaleString()}</span>
+                  <span title="Likes">♥ {deck.legacyStats.likes.toLocaleString()}</span>
+                </div>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <p id="no-results" class="no-results" hidden>No decks match your search.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .toolbar {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tag-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tag-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .tag-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+  .clear-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  .clear-btn:hover { text-decoration: underline; }
+  .clear-btn[hidden] { display: none; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: var(--color-surface);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card-cover {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+  .card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .lang-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(0,0,0,0.65);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+  }
+  .card-body {
+    padding: 0.875rem;
+  }
+  .card-body h2 {
+    margin: 0 0 0.375rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-date {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  .tag {
+    padding: 0.2rem 0.5rem;
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+  }
+
+  .card-stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+  .card-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--color-text-muted);
+  }
+  .no-results[hidden] { display: none; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.5rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const grid = document.getElementById('grid')!;
+  const cards = grid.querySelectorAll<HTMLElement>('.card');
+  const searchInput = document.getElementById('search') as HTMLInputElement;
+  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const countEl = document.getElementById('count')!;
+  const noResults = document.getElementById('no-results')!;
+  const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement;
+
+  let query = '';
+  let activeTags = new Set<string>();
+
+  function filter() {
+    let visible = 0;
+    const q = query.toLowerCase();
+
+    cards.forEach(card => {
+      const title = card.dataset.title || '';
+      const description = card.dataset.description || '';
+      const tags = (card.dataset.tags || '').split(',').filter(Boolean);
+
+      const matchQ = !q || title.includes(q) || description.includes(q) || tags.some(t => t.includes(q));
+      const matchT = activeTags.size === 0 || tags.some(t => activeTags.has(t));
+
+      const show = matchQ && matchT;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    countEl.textContent = `${visible} deck${visible !== 1 ? 's' : ''}`;
+    noResults.hidden = visible > 0;
+    clearBtn.hidden = !query && activeTags.size === 0;
+  }
+
+  searchInput.addEventListener('input', () => {
+    query = searchInput.value.trim();
+    filter();
+  });
+
+  tagBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag!;
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('active');
+      } else {
+        activeTags.add(tag);
+        btn.classList.add('active');
+      }
+      filter();
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    query = '';
+    searchInput.value = '';
+    activeTags.clear();
+    tagBtns.forEach(btn => btn.classList.remove('active'));
+    filter();
+  });
+</script>

@@ -1,0 +1,16 @@
+{
+  "slug": "smarter-sales-process-in-dynamics-crm-2015-part-1-lead-quali",
+  "title": "Smarter Sales Process in Dynamics CRM 2015 - Part 1: Lead Qualification",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/smarter-sales-process-in-dynamics-crm-2015-part-1-lead-quali/deck.pdf",
+    "cover": "/decks/smarter-sales-process-in-dynamics-crm-2015-part-1-lead-quali/cover.webp"
+  },
+  "description": "Webcast notes from \"A Non-Developer's Guide to Smarter Sales Processes in Microsoft Dynamics CRM 2015\", as presented on MSDynamicsWorld.com on May 6th, 2015. This first part looks at the lead qualification process in Dynamics CRM and demonstrates a way how the process can be customized to support scenarios, where a new opportunity record should not be automatically created when qualifying a lead record. The customization tools used include branching Business Process Flow (BPF), Real-Time Workflows, Business Rules and Quick View Forms.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/smarter-sales-processincrm2015part1leadqualification/47967886",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=smarter-sales-processincrm2015part1leadqualification"
+  },
+  "uploadedAt": "2015-05-10T17:01:16Z"
+}

@@ -1,0 +1,121 @@
+---
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+const uniqueTags = [...new Set(tags)].sort();
+---
+
+<div class="tag-filter">
+  <div class="filter-header">
+    <span class="filter-label">Filter by tag:</span>
+    <button type="button" class="clear-filters" hidden>Clear all</button>
+  </div>
+  <div class="tag-list">
+    {uniqueTags.map((tag) => (
+      <button type="button" class="filter-tag" data-tag={tag}>
+        {tag}
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .tag-filter {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .filter-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .clear-filters {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0;
+  }
+
+  .clear-filters:hover {
+    text-decoration: underline;
+  }
+
+  .clear-filters[hidden] {
+    display: none;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-tag {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+  }
+
+  .filter-tag:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .filter-tag.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+</style>
+
+<script>
+  const filterTags = document.querySelectorAll('.filter-tag');
+  const clearFiltersBtn = document.querySelector('.clear-filters') as HTMLButtonElement;
+  const activeTags = new Set<string>();
+
+  filterTags.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tag = btn.getAttribute('data-tag');
+      if (!tag) return;
+
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('active');
+      } else {
+        activeTags.add(tag);
+        btn.classList.add('active');
+      }
+
+      clearFiltersBtn.hidden = activeTags.size === 0;
+      
+      // Dispatch custom event for filtering
+      document.dispatchEvent(new CustomEvent('tag-filter', { 
+        detail: { tags: Array.from(activeTags) } 
+      }));
+    });
+  });
+
+  clearFiltersBtn?.addEventListener('click', () => {
+    activeTags.clear();
+    filterTags.forEach((btn) => btn.classList.remove('active'));
+    clearFiltersBtn.hidden = true;
+    document.dispatchEvent(new CustomEvent('tag-filter', { detail: { tags: [] } }));
+  });
+</script>

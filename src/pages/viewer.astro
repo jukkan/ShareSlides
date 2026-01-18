@@ -1,0 +1,93 @@
+---
+// Query params are handled client-side for static builds
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slide Viewer | ShareSlides</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    
+    .viewer-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .error, .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #374151;
+      background: #f9fafb;
+      text-align: center;
+      padding: 2rem;
+    }
+    .error h1, .loading h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .error p, .loading p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+    .error a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .error a:hover {
+      text-decoration: underline;
+    }
+    #viewer-container { height: 100%; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="viewer-container">
+    <div id="loading" class="loading">
+      <h1>Loading viewer...</h1>
+    </div>
+    <div id="error" class="error hidden">
+      <h1>Invalid file</h1>
+      <p>The requested file path is not allowed.</p>
+      <a href="/">← Back to decks</a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const fileParam = params.get('file');
+    
+    // Safety check: only allow paths starting with /decks/ and ending with .pdf
+    const isValidPath = fileParam && 
+      fileParam.startsWith('/decks/') && 
+      fileParam.endsWith('.pdf') &&
+      !fileParam.includes('..');
+    
+    const container = document.getElementById('viewer-container');
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    
+    if (isValidPath) {
+      const viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(fileParam)}`;
+      const iframe = document.createElement('iframe');
+      iframe.src = viewerSrc;
+      iframe.className = 'viewer-frame';
+      iframe.allowFullscreen = true;
+      
+      loading.classList.add('hidden');
+      container.appendChild(iframe);
+    } else {
+      loading.classList.add('hidden');
+      error.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

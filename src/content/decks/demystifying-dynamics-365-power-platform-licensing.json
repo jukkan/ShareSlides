@@ -1,0 +1,16 @@
+{
+  "slug": "demystifying-dynamics-365-power-platform-licensing",
+  "title": "Demystifying Dynamics 365 & Power Platform Licensing",
+  "tags": [],
+  "language": "en",
+  "assets": {
+    "pdf": "/decks/demystifying-dynamics-365-power-platform-licensing/deck.pdf",
+    "cover": "/decks/demystifying-dynamics-365-power-platform-licensing/cover.webp"
+  },
+  "description": "My session at Dynamics Power 365 Saturday London 2019 on the Customer Engagement track. Covering the latest updates to Dynamics 365 CE licensing and comparing the options for how PowerApps, Flow and CDS may be licensed.",
+  "source": {
+    "slideshareUrl": "https://www.slideshare.net/slideshow/demystifying-dynamics-365-power-platform-licensing/130026524",
+    "downloadUrl": "https://www.slideshare.net/dwnld_file?s_title=demystifying-dynamics-365-power-platform-licensing"
+  },
+  "uploadedAt": "2019-01-31T17:45:49Z"
+}
