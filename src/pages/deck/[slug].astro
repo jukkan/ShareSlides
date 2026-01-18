@@ -144,9 +144,9 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     if (!pdfPath) return;
     let viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
 
-    // Add page parameter if provided
+    // Add page parameter if provided (PDF.js uses hash parameters for navigation)
     if (page) {
-      viewerSrc += `&page=${encodeURIComponent(page)}`;
+      viewerSrc += `#page=${encodeURIComponent(page)}`;
     }
 
     iframe.src = viewerSrc;
