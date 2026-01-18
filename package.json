@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "import:slideshare": "node scripts/import-slideshare-uploadedAt.mjs"
+    "import:slideshare": "node scripts/import-slideshare-uploadedAt.mjs",
+    "assign-ids": "node scripts/assign-short-ids.mjs"
   },
   "dependencies": {
     "astro": "^5.16.11",

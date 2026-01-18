@@ -22,6 +22,7 @@ export interface LegacyStatsWithMeta extends LegacyStats {
 
 export interface Deck {
   slug: string;
+  shortId?: number;
   title: string;
   description?: string;
   tags: string[];

@@ -65,6 +65,10 @@ export function getDeckBySlug(slug: string): Deck | undefined {
   return getAllDecks().find((deck) => deck.slug === slug);
 }
 
+export function getDeckByShortId(shortId: number): Deck | undefined {
+  return getAllDecks().find((deck) => deck.shortId === shortId);
+}
+
 export function getAllTags(): string[] {
   const tags = getAllDecks().flatMap((deck) => deck.tags);
   return [...new Set(tags)].sort();

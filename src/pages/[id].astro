@@ -1,0 +1,23 @@
+---
+import { getAllDecks, getDeckByShortId } from '../lib/decks';
+
+export function getStaticPaths() {
+  const decks = getAllDecks();
+  return decks
+    .filter(deck => deck.shortId)
+    .map(deck => ({
+      params: { id: String(deck.shortId) },
+      props: { deck }
+    }));
+}
+
+const { id } = Astro.params;
+const deck = getDeckByShortId(parseInt(id, 10));
+
+if (!deck) {
+  return Astro.redirect('/404');
+}
+
+// Redirect to the full deck page
+return Astro.redirect(`/deck/${deck.slug}`, 301);
+---
