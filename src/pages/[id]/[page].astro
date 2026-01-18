@@ -1,0 +1,45 @@
+---
+import { getAllDecks, getDeckByShortId } from '../../lib/decks';
+
+export function getStaticPaths() {
+  const decks = getAllDecks();
+  const paths: { params: { id: string; page: string }; props: { deck: any } }[] = [];
+
+  // For each deck with a short ID, generate paths for common page numbers
+  // We'll generate paths for pages 1-50 as a reasonable default
+  // The actual page validation will happen at runtime in the viewer
+  decks
+    .filter(deck => deck.shortId)
+    .forEach(deck => {
+      // Generate paths for pages 1-50
+      for (let page = 1; page <= 50; page++) {
+        paths.push({
+          params: {
+            id: String(deck.shortId),
+            page: String(page)
+          },
+          props: { deck }
+        });
+      }
+    });
+
+  return paths;
+}
+
+const { id, page } = Astro.params;
+const deck = getDeckByShortId(parseInt(id, 10));
+
+if (!deck) {
+  return Astro.redirect('/404');
+}
+
+// Validate page number
+const pageNum = parseInt(page, 10);
+if (isNaN(pageNum) || pageNum < 1) {
+  // Invalid page number, redirect to deck without page parameter
+  return Astro.redirect(`/deck/${deck.slug}`, 301);
+}
+
+// Redirect to the full deck page with page parameter
+return Astro.redirect(`/deck/${deck.slug}?page=${pageNum}`, 301);
+---

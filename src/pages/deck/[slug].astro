@@ -133,25 +133,35 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
   const modalContainer = modal?.querySelector('.viewer-container') as HTMLDivElement;
   const closeBtn = document.getElementById('close-viewer-btn') as HTMLButtonElement;
   const iframe = document.getElementById('viewer-iframe') as HTMLIFrameElement;
-  
+
   const pdfPath = viewBtn?.dataset.pdf;
-  
-  function openViewer() {
+
+  // Get page parameter from URL if present
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialPage = urlParams.get('page');
+
+  function openViewer(page?: string) {
     if (!pdfPath) return;
-    const viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
+    let viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
+
+    // Add page parameter if provided
+    if (page) {
+      viewerSrc += `&page=${encodeURIComponent(page)}`;
+    }
+
     iframe.src = viewerSrc;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
   }
-  
+
   function closeViewer() {
     modal.hidden = true;
     document.body.style.overflow = '';
     iframe.src = '';
   }
-  
-  viewBtn?.addEventListener('click', openViewer);
-  coverImage?.addEventListener('click', openViewer);
+
+  viewBtn?.addEventListener('click', () => openViewer());
+  coverImage?.addEventListener('click', () => openViewer());
   coverImage?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -159,20 +169,25 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     }
   });
   closeBtn?.addEventListener('click', closeViewer);
-  
+
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !modal.hidden) {
       closeViewer();
     }
   });
-  
+
   // Close on backdrop click (outside the container)
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) {
       closeViewer();
     }
   });
+
+  // Auto-open viewer if page parameter is present in URL
+  if (initialPage) {
+    openViewer(initialPage);
+  }
 </script>
 
 <style>
