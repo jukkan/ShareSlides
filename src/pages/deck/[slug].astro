@@ -144,14 +144,32 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     if (!pdfPath) return;
     let viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
 
-    // Add page parameter if provided (PDF.js uses hash parameters for navigation)
+    // Add page parameter if provided as hash
     if (page) {
-      viewerSrc += `#page=${encodeURIComponent(page)}`;
+      viewerSrc += `#page=${page}`;
     }
 
+    // Set iframe source
     iframe.src = viewerSrc;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
+
+    // Additional attempt: update hash after iframe loads
+    if (page) {
+      const handleLoad = () => {
+        try {
+          // Try to update the hash on the iframe's location
+          if (iframe.contentWindow) {
+            iframe.contentWindow.location.hash = `page=${page}`;
+          }
+        } catch (e) {
+          // Cross-origin or other error, ignore
+          console.debug('Could not set iframe hash:', e);
+        }
+        iframe.removeEventListener('load', handleLoad);
+      };
+      iframe.addEventListener('load', handleLoad);
+    }
   }
 
   function closeViewer() {
