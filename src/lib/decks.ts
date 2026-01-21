@@ -73,3 +73,10 @@ export function getAllTags(): string[] {
   const tags = getAllDecks().flatMap((deck) => deck.tags);
   return [...new Set(tags)].sort();
 }
+
+export function getTagsByCategory(category: 'Organic' | 'AI'): string[] {
+  const tags = getAllDecks()
+    .filter(deck => (deck.category || 'Organic') === category)
+    .flatMap((deck) => deck.tags);
+  return [...new Set(tags)].sort();
+}

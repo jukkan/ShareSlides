@@ -13,6 +13,8 @@ if (!deck) {
   return Astro.redirect('/404');
 }
 
+const deckCategory = deck.category || 'Organic';
+
 const langNames: Record<string, string> = {
   en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', fi: 'Suomi'
 };
@@ -20,7 +22,7 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
 ---
 
 <BaseLayout title={deck.title}>
-  <div class="container">
+  <div class="container" data-deck-category={deckCategory}>
     <nav class="breadcrumb">
       <a href="/">← Back to all decks</a>
     </nav>
@@ -125,6 +127,18 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  // Set theme based on deck category
+  const container = document.querySelector('[data-deck-category]') as HTMLElement;
+  const category = container?.dataset.deckCategory || 'Organic';
+  
+  if (category === 'AI') {
+    document.documentElement.setAttribute('data-theme', 'ai');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+</script>
 
 <script>
   const viewBtn = document.getElementById('view-slides-btn') as HTMLButtonElement;

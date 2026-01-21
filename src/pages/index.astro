@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getAllDecks, getAllTags } from '../lib/decks';
+import { getAllDecks, getTagsByCategory } from '../lib/decks';
 import type { Deck } from '../types/deck';
 
 const decks = getAllDecks();
-const tags = getAllTags();
+const organicTags = getTagsByCategory('Organic');
+const aiTags = getTagsByCategory('AI');
 
 const langNames: Record<string, string> = {
   en: 'EN', fr: 'FR', de: 'DE', es: 'ES', fi: 'FI'
@@ -37,9 +38,16 @@ const langNames: Record<string, string> = {
 
     <div class="toolbar">
       <div class="tag-filters" id="tag-filters">
-        {tags.map(tag => (
-          <button type="button" class="tag-btn" data-tag={tag}>{tag}</button>
-        ))}
+        <div class="organic-tags" data-category="Organic">
+          {organicTags.map(tag => (
+            <button type="button" class="tag-btn" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+        <div class="ai-tags" data-category="AI" style="display: none;">
+          {aiTags.map(tag => (
+            <button type="button" class="tag-btn" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
       </div>
     </div>
 
@@ -295,7 +303,7 @@ const langNames: Record<string, string> = {
   const grid = document.getElementById('grid')!;
   const cards = grid.querySelectorAll<HTMLElement>('.card');
   const searchInput = document.getElementById('search') as HTMLInputElement;
-  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const tagFiltersContainer = document.getElementById('tag-filters')!;
   const categoryBtns = document.querySelectorAll<HTMLButtonElement>('.category-btn');
   const countEl = document.getElementById('count')!;
   const noResults = document.getElementById('no-results')!;
@@ -310,6 +318,19 @@ const langNames: Record<string, string> = {
       document.documentElement.setAttribute('data-theme', 'ai');
     } else {
       document.documentElement.removeAttribute('data-theme');
+    }
+  }
+
+  function updateTagFilters(category: string) {
+    const organicTags = tagFiltersContainer.querySelector<HTMLElement>('.organic-tags');
+    const aiTags = tagFiltersContainer.querySelector<HTMLElement>('.ai-tags');
+    
+    if (category === 'AI') {
+      if (organicTags) organicTags.style.display = 'none';
+      if (aiTags) aiTags.style.display = '';
+    } else {
+      if (organicTags) organicTags.style.display = '';
+      if (aiTags) aiTags.style.display = 'none';
     }
   }
 
@@ -354,38 +375,55 @@ const langNames: Record<string, string> = {
       // Switch theme
       setTheme(category);
 
+      // Switch tag filters
+      updateTagFilters(category);
+
       // Clear filters when switching categories
       query = '';
       searchInput.value = '';
       activeTags.clear();
-      tagBtns.forEach(b => b.classList.remove('active'));
+      
+      // Re-attach event listeners to new tag buttons
+      attachTagButtonListeners();
 
       filter();
     });
   });
 
-  tagBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tag = btn.dataset.tag!;
-      if (activeTags.has(tag)) {
-        activeTags.delete(tag);
-        btn.classList.remove('active');
-      } else {
-        activeTags.add(tag);
-        btn.classList.add('active');
-      }
-      filter();
+  function attachTagButtonListeners() {
+    const tagBtns = tagFiltersContainer.querySelectorAll<HTMLButtonElement>('.tag-btn');
+    tagBtns.forEach(btn => {
+      btn.replaceWith(btn.cloneNode(true));
     });
-  });
+    
+    const newTagBtns = tagFiltersContainer.querySelectorAll<HTMLButtonElement>('.tag-btn');
+    newTagBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag!;
+        if (activeTags.has(tag)) {
+          activeTags.delete(tag);
+          btn.classList.remove('active');
+        } else {
+          activeTags.add(tag);
+          btn.classList.add('active');
+        }
+        filter();
+      });
+    });
+  }
 
   clearBtn.addEventListener('click', () => {
     query = '';
     searchInput.value = '';
     activeTags.clear();
+    const tagBtns = tagFiltersContainer.querySelectorAll<HTMLButtonElement>('.tag-btn');
     tagBtns.forEach(btn => btn.classList.remove('active'));
     filter();
   });
 
-  // Initialize theme on page load
+  // Initialize
+  attachTagButtonListeners();
   setTheme(activeCategory);
+  updateTagFilters(activeCategory);
+  filter();
 </script>
