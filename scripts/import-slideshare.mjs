@@ -105,6 +105,7 @@ function processSlideshow(item, index, existingSlugs) {
     title,
     tags: parseTags(item.tags),
     language: normalizeLanguage(item.language),
+    category: 'Organic', // Default category for imported SlideShare presentations
     assets: {
       pdf: `/decks/${slug}/deck.pdf`,
       cover: `/decks/${slug}/cover.webp`,
