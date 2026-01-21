@@ -13,6 +13,28 @@ const langNames: Record<string, string> = {
 
 <BaseLayout title="Browse Decks" showSearch={true}>
   <div class="container">
+    <div class="category-switcher">
+      <button type="button" class="category-btn active" data-category="Organic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M2 12h20"/>
+        </svg>
+        Organic
+      </button>
+      <button type="button" class="category-btn" data-category="AI">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a2 2 0 0 0-2 2c0 .74.4 1.39 1 1.73V7h2V5.73c.6-.34 1-.99 1-1.73a2 2 0 0 0-2-2Z"/>
+          <path d="M14 22v-1.5"/>
+          <path d="M10 22v-1.5"/>
+          <path d="m7 19-2 3"/>
+          <path d="m17 19 2 3"/>
+          <path d="M9 17h6"/>
+          <path d="M9 14h6"/>
+          <circle cx="12" cy="11" r="5"/>
+        </svg>
+        AI
+      </button>
+    </div>
+
     <div class="toolbar">
       <div class="tag-filters" id="tag-filters">
         {tags.map(tag => (
@@ -28,7 +50,7 @@ const langNames: Record<string, string> = {
 
     <div class="grid" id="grid">
       {decks.map((deck) => (
-        <article class="card" data-title={deck.title.toLowerCase()} data-tags={deck.tags.join(',')} data-description={(deck.description || '').toLowerCase()}>
+        <article class="card" data-title={deck.title.toLowerCase()} data-tags={deck.tags.join(',')} data-description={(deck.description || '').toLowerCase()} data-category={deck.category || 'Organic'}>
           <a href={`/deck/${deck.slug}`}>
             <div class="card-cover">
               <img src={deck.assets.cover} alt="" loading="lazy" onerror="this.src='/placeholder-cover.svg'" />
@@ -62,6 +84,61 @@ const langNames: Record<string, string> = {
 </BaseLayout>
 
 <style>
+  .category-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 1.5rem 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .category-btn:first-child {
+    border-radius: 9999px 0 0 9999px;
+    border-right-width: 0.5px;
+  }
+
+  .category-btn:last-child {
+    border-radius: 0 9999px 9999px 0;
+    border-left-width: 0.5px;
+  }
+
+  .category-btn:hover {
+    background: var(--color-bg);
+    z-index: 1;
+  }
+
+  .category-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    z-index: 2;
+  }
+
+  .category-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* AI category button glow effect when active */
+  .category-btn[data-category="AI"].active {
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+  }
+
   .toolbar {
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--color-border);
@@ -219,12 +296,22 @@ const langNames: Record<string, string> = {
   const cards = grid.querySelectorAll<HTMLElement>('.card');
   const searchInput = document.getElementById('search') as HTMLInputElement;
   const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const categoryBtns = document.querySelectorAll<HTMLButtonElement>('.category-btn');
   const countEl = document.getElementById('count')!;
   const noResults = document.getElementById('no-results')!;
   const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement;
 
   let query = '';
   let activeTags = new Set<string>();
+  let activeCategory = 'Organic';
+
+  function setTheme(category: string) {
+    if (category === 'AI') {
+      document.documentElement.setAttribute('data-theme', 'ai');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }
 
   function filter() {
     let visible = 0;
@@ -234,11 +321,13 @@ const langNames: Record<string, string> = {
       const title = card.dataset.title || '';
       const description = card.dataset.description || '';
       const tags = (card.dataset.tags || '').split(',').filter(Boolean);
+      const category = card.dataset.category || 'Organic';
 
       const matchQ = !q || title.includes(q) || description.includes(q) || tags.some(t => t.includes(q));
       const matchT = activeTags.size === 0 || tags.some(t => activeTags.has(t));
+      const matchC = category === activeCategory;
 
-      const show = matchQ && matchT;
+      const show = matchQ && matchT && matchC;
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -251,6 +340,28 @@ const langNames: Record<string, string> = {
   searchInput.addEventListener('input', () => {
     query = searchInput.value.trim();
     filter();
+  });
+
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.dataset.category!;
+      activeCategory = category;
+
+      // Update active state
+      categoryBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Switch theme
+      setTheme(category);
+
+      // Clear filters when switching categories
+      query = '';
+      searchInput.value = '';
+      activeTags.clear();
+      tagBtns.forEach(b => b.classList.remove('active'));
+
+      filter();
+    });
   });
 
   tagBtns.forEach(btn => {
@@ -274,4 +385,7 @@ const langNames: Record<string, string> = {
     tagBtns.forEach(btn => btn.classList.remove('active'));
     filter();
   });
+
+  // Initialize theme on page load
+  setTheme(activeCategory);
 </script>

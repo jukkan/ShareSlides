@@ -20,6 +20,8 @@ export interface LegacyStatsWithMeta extends LegacyStats {
   capturedAt?: string;
 }
 
+export type DeckCategory = 'Organic' | 'AI';
+
 export interface Deck {
   slug: string;
   shortId?: number;
@@ -27,6 +29,7 @@ export interface Deck {
   description?: string;
   tags: string[];
   language: string;
+  category?: DeckCategory;
   assets: DeckAssets;
   source?: DeckSource;
   legacyStats?: LegacyStatsWithMeta;
