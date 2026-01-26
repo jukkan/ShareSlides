@@ -2,12 +2,18 @@
   "slug": "digital-sovereignty-pre-mortem",
   "title": "Digital Sovereignty Pre-Mortem",
   "description": "Scenario analysis exploring the consequences of a geopolitical rupture between Europe and US-based cloud providers. Developed with ChatGPT and visualized with NotebookLM, this deck examines the trust break that occurs when infrastructure dependencies—specifically the Microsoft cloud stack—become a liability due to shifts in the US legal and political center of gravity.",
-  "tags": ["EU", "US", "cloud", "sovereignty"],
+  "tags": [
+    "EU",
+    "US",
+    "cloud",
+    "sovereignty"
+  ],
   "language": "en",
   "category": "AI",
   "assets": {
     "pdf": "/decks/digital-sovereignty-pre-mortem/deck.pdf",
     "cover": "/decks/digital-sovereignty-pre-mortem/cover.webp"
   },
-  "uploadedAt": "2026-01-21T00:00:00Z"
+  "uploadedAt": "2026-01-21T00:00:00Z",
+  "shortId": 27
 }

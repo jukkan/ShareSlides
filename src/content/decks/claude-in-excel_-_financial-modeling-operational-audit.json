@@ -1,0 +1,18 @@
+{
+  "slug": "claude-in-excel_-_financial-modeling-operational-audit",
+  "title": "Claude in Excel: Financial Modeling Operational Audit",
+  "description": "Preview user experiences of Claude in Excel used in the context of financial models. Materials collected via Google Gemini deep research on 2026-01-25 and visualized with NotebookLM.",
+  "tags": [
+    "claude",
+    "excel",
+    "financial"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/claude-in-excel_-_financial-modeling-operational-audit/deck.pdf",
+    "cover": "/decks/claude-in-excel_-_financial-modeling-operational-audit/cover.webp"
+  },
+  "uploadedAt": "2026-01-26T00:00:00Z",
+  "shortId": 28
+}
