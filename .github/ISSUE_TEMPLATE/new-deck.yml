@@ -1,0 +1,59 @@
+name: "Add new deck"
+description: "Checklist for importing a new presentation deck"
+title: "Add deck: <title>"
+labels:
+  - "deck intake"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue to walk through the full intake flow for a new presentation. Fill in the metadata, upload the deck files here as attachments, and check the boxes as you go so nothing gets skipped before publishing.
+        
+        📎 **Attachments**: Drag-and-drop the PPTX/PDF (or a single ZIP containing every asset) into this issue so the files travel with the request.
+  - type: input
+    id: slug
+    attributes:
+      label: Deck slug
+      description: Lowercase, hyphenated identifier (matches public/decks/<slug>/)
+      placeholder: example-presentation
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Deck title
+      placeholder: Example Presentation Title
+    validations:
+      required: true
+  - type: textarea
+    id: metadata
+    attributes:
+      label: Description, tags, language, category
+      description: Optional notes that will be needed when creating src/content/decks/<slug>.json.
+      placeholder: |
+        Description: ...
+        Tags: [...]
+        Language: en
+        Category: Organic
+  - type: textarea
+    id: assets
+    attributes:
+      label: Asset source
+      description: Where are the PPTX/PDF files stored before ingestion? (local path, OneDrive link, etc.) Mention if additional context is needed for the issue attachments.
+  - type: checkboxes
+    id: steps
+    attributes:
+      label: Intake checklist
+      options:
+        - label: Attach PPTX/PDF (or ZIP) to this issue so the source files stay with the intake request
+        - label: Create folder public/decks/<slug>/ and copy the original deck.pptx (and any existing PDF)
+        - label: Run node scripts/prepare-assets.mjs --slug <slug> (or equivalent) to generate deck.pdf + cover.webp
+        - label: Add src/content/decks/<slug>.json with metadata + asset paths
+        - label: Run npm run assign-ids so the short links update
+        - label: Preview locally via npm run dev and confirm /deck/<slug> renders with PDF viewer working
+        - label: Commit new assets + metadata, close issue after GitHub Pages deploy succeeds
+  - type: textarea
+    id: notes
+    attributes:
+      label: Extra notes
+      description: Anything unusual about this deck (missing PPTX, AI-generated, licensing caveats, etc.)
