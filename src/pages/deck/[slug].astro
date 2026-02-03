@@ -156,6 +156,7 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
   const copyLinkBtn = document.getElementById('copy-viewer-link-btn') as HTMLButtonElement;
 
   const pdfPath = viewBtn?.dataset.pdf;
+  const deckSharePath = '/deck/${deck.slug}';
 
   // Get page parameter from URL if present
   const urlParams = new URLSearchParams(window.location.search);
@@ -212,20 +213,18 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     return null;
   }
 
-  function buildViewerUrl() {
-    if (!pdfPath) return null;
-    const viewerUrl = new URL('/viewer', window.location.origin);
-    viewerUrl.searchParams.set('file', pdfPath);
+  function buildShareUrl() {
+    const deckUrl = new URL(deckSharePath, window.location.origin);
     const page = getCurrentViewerPage() || initialPage || '1';
     if (page) {
-      viewerUrl.hash = `page=${page}`;
+      deckUrl.searchParams.set('page', page);
     }
-    return viewerUrl.toString();
+    return deckUrl.toString();
   }
 
   async function copyViewerLink() {
     if (!copyLinkBtn) return;
-    const viewerUrl = buildViewerUrl();
+    const viewerUrl = buildShareUrl();
     if (!viewerUrl) return;
     try {
       if (navigator.clipboard?.writeText) {
@@ -240,7 +239,7 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
         copyLinkBtn?.setAttribute('title', copyBtnDefaultTitle);
       }, 1800);
     } catch {
-      window.prompt('Copy viewer URL', viewerUrl);
+      window.prompt('Copy deck URL', viewerUrl);
     }
   }
 
