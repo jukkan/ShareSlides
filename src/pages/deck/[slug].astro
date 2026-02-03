@@ -106,6 +106,12 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
       <div class="viewer-header">
         <span class="viewer-title">{deck.title}</span>
         <div class="viewer-actions">
+          <button type="button" id="copy-viewer-link-btn" class="viewer-btn" title="Copy link to current slide">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3.29-3.3a5 5 0 0 0-7.06-7.07l-1.11 1.1" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3.3 3.29a5 5 0 1 0 7.07 7.07l1.11-1.11" />
+            </svg>
+          </button>
           <a href={deck.assets.pdf} download class="viewer-btn" title="Download PDF">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -147,12 +153,14 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
   const modalContainer = modal?.querySelector('.viewer-container') as HTMLDivElement;
   const closeBtn = document.getElementById('close-viewer-btn') as HTMLButtonElement;
   const iframe = document.getElementById('viewer-iframe') as HTMLIFrameElement;
+  const copyLinkBtn = document.getElementById('copy-viewer-link-btn') as HTMLButtonElement;
 
   const pdfPath = viewBtn?.dataset.pdf;
 
   // Get page parameter from URL if present
   const urlParams = new URLSearchParams(window.location.search);
   const initialPage = urlParams.get('page');
+  const copyBtnDefaultTitle = copyLinkBtn?.title || '';
 
   function openViewer(page?: string) {
     if (!pdfPath) return;
@@ -192,6 +200,50 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     iframe.src = '';
   }
 
+  function getCurrentViewerPage() {
+    try {
+      const pageInput = iframe?.contentDocument?.getElementById('pageNumber') as HTMLInputElement | null;
+      if (pageInput?.value) {
+        return pageInput.value;
+      }
+    } catch {
+      return null;
+    }
+    return null;
+  }
+
+  function buildViewerUrl() {
+    if (!pdfPath) return null;
+    const viewerUrl = new URL('/viewer', window.location.origin);
+    viewerUrl.searchParams.set('file', pdfPath);
+    const page = getCurrentViewerPage() || initialPage || '1';
+    if (page) {
+      viewerUrl.hash = `page=${page}`;
+    }
+    return viewerUrl.toString();
+  }
+
+  async function copyViewerLink() {
+    if (!copyLinkBtn) return;
+    const viewerUrl = buildViewerUrl();
+    if (!viewerUrl) return;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(viewerUrl);
+      } else {
+        throw new Error('Clipboard API unavailable');
+      }
+      copyLinkBtn.classList.add('copied');
+      copyLinkBtn.title = 'Link copied';
+      window.setTimeout(() => {
+        copyLinkBtn?.classList.remove('copied');
+        copyLinkBtn?.setAttribute('title', copyBtnDefaultTitle);
+      }, 1800);
+    } catch {
+      window.prompt('Copy viewer URL', viewerUrl);
+    }
+  }
+
   viewBtn?.addEventListener('click', () => openViewer());
   coverImage?.addEventListener('click', () => openViewer());
   coverImage?.addEventListener('keydown', (e) => {
@@ -201,6 +253,7 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     }
   });
   closeBtn?.addEventListener('click', closeViewer);
+  copyLinkBtn?.addEventListener('click', copyViewerLink);
 
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
@@ -490,6 +543,10 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
   }
   .viewer-btn:hover {
     background: #333;
+    color: #fff;
+  }
+  .viewer-btn.copied {
+    background: #2563eb;
     color: #fff;
   }
   .viewer-close {
