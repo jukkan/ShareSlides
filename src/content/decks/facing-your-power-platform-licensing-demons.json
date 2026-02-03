@@ -1,0 +1,18 @@
+{
+  "slug": "facing-your-power-platform-licensing-demons",
+  "title": "Facing Your Power Platform Licensing Demons",
+  "description": "Battle the five biggest Power Platform licensing “demons” that haunt real‑world projects: Dynamics vs. Power Apps rights, in‑app context rules, multiplexing traps, capacity confusion, and the emerging cost model of Copilot agents. This deck breaks down each monster with practical examples, decrypted explanations, and guidance on how to navigate Microsoft’s licensing maze for business applications. Designed to help architects, makers, and advisors replace fear with clarity.",
+  "tags": [
+    "power-platform",
+    "licensing",
+    "dynamics-365"
+  ],
+  "language": "en",
+  "category": "Organic",
+  "assets": {
+    "pdf": "/decks/facing-your-power-platform-licensing-demons/deck.pdf",
+    "cover": "/decks/facing-your-power-platform-licensing-demons/cover.webp"
+  },
+  "uploadedAt": "2026-02-03T00:00:00Z",
+  "shortId": 29
+}
