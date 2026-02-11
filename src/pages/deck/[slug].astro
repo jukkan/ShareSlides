@@ -399,9 +399,9 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
       let previewWidth = width;
       let previewHeight = height;
       if (width > availableWidth) {
-        const scaleFactor = availableWidth / width;
-        previewWidth = Math.floor(width * scaleFactor);
-        previewHeight = Math.floor(height * scaleFactor);
+        // Scale to fit available width while maintaining exact aspect ratio
+        previewWidth = Math.floor(availableWidth);
+        previewHeight = Math.floor(previewWidth * (height / width));
       }
       
       iframe.width = String(previewWidth);
