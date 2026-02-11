@@ -95,9 +95,62 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
               Download PPTX
             </a>
           )}
+          <button type="button" id="embed-btn" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+            Embed
+          </button>
         </div>
       </div>
     </article>
+  </div>
+
+  <!-- Embed Code Modal -->
+  <div id="embed-modal" class="embed-modal" hidden>
+    <div class="embed-modal-container">
+      <div class="embed-modal-header">
+        <h2>Embed this deck</h2>
+        <button type="button" id="close-embed-btn" class="embed-close-btn" title="Close">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="embed-modal-body">
+        <p class="embed-description">
+          Copy and paste this code into your website to embed this presentation.
+        </p>
+        
+        <div class="embed-size-selector">
+          <label>Size:</label>
+          <div class="size-buttons">
+            <button type="button" class="size-btn active" data-size="responsive">Responsive</button>
+            <button type="button" class="size-btn" data-size="720p">720p</button>
+            <button type="button" class="size-btn" data-size="1080p">1080p</button>
+          </div>
+        </div>
+
+        <div class="embed-code-container">
+          <code id="embed-code" class="embed-code"></code>
+        </div>
+        
+        <button type="button" id="copy-embed-btn" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          Copy code
+        </button>
+
+        <div class="embed-preview-section">
+          <h3>Preview:</h3>
+          <div class="embed-preview" id="embed-preview"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Fullscreen PDF Viewer Modal -->
@@ -272,6 +325,131 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
   if (initialPage) {
     openViewer(initialPage);
   }
+</script>
+
+<script>
+  // Embed modal functionality
+  const embedBtn = document.getElementById('embed-btn') as HTMLButtonElement;
+  const embedModal = document.getElementById('embed-modal') as HTMLDivElement;
+  const closeEmbedBtn = document.getElementById('close-embed-btn') as HTMLButtonElement;
+  const copyEmbedBtn = document.getElementById('copy-embed-btn') as HTMLButtonElement;
+  const embedCodeEl = document.getElementById('embed-code') as HTMLElement;
+  const embedPreview = document.getElementById('embed-preview') as HTMLDivElement;
+  const sizeButtons = document.querySelectorAll('.size-btn');
+
+  const deckSlug = window.location.pathname.split('/').filter(Boolean).pop() || '';
+  const siteOrigin = window.location.origin;
+  
+  let currentSize = 'responsive';
+
+  function generateEmbedCode(size: string): string {
+    const embedUrl = `${siteOrigin}/embed/${deckSlug}`;
+    
+    if (size === 'responsive') {
+      return `<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen title="Embedded presentation"></iframe>
+</div>`;
+    } else if (size === '720p') {
+      return `<iframe src="${embedUrl}" width="1280" height="720" style="border: 0;" allowfullscreen title="Embedded presentation"></iframe>`;
+    } else if (size === '1080p') {
+      return `<iframe src="${embedUrl}" width="1920" height="1080" style="border: 0;" allowfullscreen title="Embedded presentation"></iframe>`;
+    }
+    return '';
+  }
+
+  function updateEmbedCode() {
+    const code = generateEmbedCode(currentSize);
+    embedCodeEl.textContent = code;
+    
+    // Update preview
+    embedPreview.innerHTML = '';
+    const previewContainer = document.createElement('div');
+    if (currentSize === 'responsive') {
+      previewContainer.style.cssText = 'position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;';
+      const iframe = document.createElement('iframe');
+      iframe.src = `${siteOrigin}/embed/${deckSlug}`;
+      iframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;';
+      iframe.allowFullscreen = true;
+      iframe.title = 'Embedded presentation preview';
+      previewContainer.appendChild(iframe);
+    } else {
+      const iframe = document.createElement('iframe');
+      iframe.src = `${siteOrigin}/embed/${deckSlug}`;
+      iframe.style.border = '0';
+      iframe.allowFullscreen = true;
+      iframe.title = 'Embedded presentation preview';
+      
+      if (currentSize === '720p') {
+        iframe.width = '640';
+        iframe.height = '360';
+      } else if (currentSize === '1080p') {
+        iframe.width = '800';
+        iframe.height = '450';
+      }
+      
+      previewContainer.appendChild(iframe);
+    }
+    embedPreview.appendChild(previewContainer);
+  }
+
+  function openEmbedModal() {
+    updateEmbedCode();
+    embedModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEmbedModal() {
+    embedModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  async function copyEmbedCode() {
+    const code = embedCodeEl.textContent || '';
+    try {
+      await navigator.clipboard.writeText(code);
+      const originalText = copyEmbedBtn.innerHTML;
+      copyEmbedBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Copied!
+      `;
+      copyEmbedBtn.classList.add('copied');
+      setTimeout(() => {
+        copyEmbedBtn.innerHTML = originalText;
+        copyEmbedBtn.classList.remove('copied');
+      }, 2000);
+    } catch {
+      alert('Failed to copy. Please select and copy the code manually.');
+    }
+  }
+
+  embedBtn?.addEventListener('click', openEmbedModal);
+  closeEmbedBtn?.addEventListener('click', closeEmbedModal);
+  copyEmbedBtn?.addEventListener('click', copyEmbedCode);
+
+  sizeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      sizeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSize = btn.getAttribute('data-size') || 'responsive';
+      updateEmbedCode();
+    });
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !embedModal.hidden) {
+      closeEmbedModal();
+    }
+  });
+
+  // Close on backdrop click
+  embedModal?.addEventListener('click', (e) => {
+    if (e.target === embedModal) {
+      closeEmbedModal();
+    }
+  });
 </script>
 
 <style>
@@ -588,6 +766,184 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     }
     .viewer-body {
       border-radius: 0 0 0.75rem 0.75rem;
+    }
+  }
+
+  /* Embed Modal */
+  .embed-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .embed-modal[hidden] {
+    display: none;
+  }
+
+  .embed-modal-container {
+    background: var(--color-surface);
+    border-radius: 1rem;
+    max-width: 800px;
+    width: 100%;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: modalSlideIn 0.2s ease-out;
+  }
+
+  .embed-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    background: var(--color-surface);
+    z-index: 1;
+  }
+
+  .embed-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .embed-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .embed-close-btn:hover {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .embed-modal-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .embed-description {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .embed-size-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .embed-size-selector label {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .size-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .size-btn {
+    padding: 0.5rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--color-text);
+  }
+  .size-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .size-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+
+  .embed-code-container {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .embed-code {
+    display: block;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--color-text);
+  }
+
+  .embed-preview-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .embed-preview-section h3 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .embed-preview {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn.copied {
+    background: #10b981;
+    border-color: #10b981;
+  }
+
+  @media (max-width: 640px) {
+    .embed-modal {
+      padding: 0.75rem;
+    }
+    .embed-modal-container {
+      max-height: calc(100vh - 1.5rem);
+    }
+    .embed-modal-header {
+      padding: 1rem;
+    }
+    .embed-modal-header h2 {
+      font-size: 1.25rem;
+    }
+    .embed-modal-body {
+      padding: 1rem;
     }
   }
 </style>
