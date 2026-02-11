@@ -12,10 +12,6 @@ if (!deck) {
   return Astro.redirect('/404');
 }
 
-// Get page parameter from URL if present
-const url = new URL(Astro.request.url);
-const initialPage = url.searchParams.get('page');
-const hideFooter = url.searchParams.get('hideFooter') === 'true';
 const siteUrl = Astro.site?.toString() || 'https://slides.jukkan.com';
 ---
 
@@ -67,10 +63,6 @@ const siteUrl = Astro.site?.toString() || 'https://slides.jukkan.com';
       gap: 1rem;
       flex-shrink: 0;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .embed-footer.hidden {
-      display: none;
     }
     
     .footer-content {
@@ -139,7 +131,7 @@ const siteUrl = Astro.site?.toString() || 'https://slides.jukkan.com';
     ></iframe>
   </div>
   
-  <div class={`embed-footer ${hideFooter ? 'hidden' : ''}`}>
+  <div id="embed-footer" class="embed-footer">
     <div class="footer-content">
       <span class="deck-title">{deck.title}</span>
       <a href={`${siteUrl}/deck/${deck.slug}`} target="_blank" rel="noopener noreferrer" class="footer-link">
@@ -153,8 +145,18 @@ const siteUrl = Astro.site?.toString() || 'https://slides.jukkan.com';
     </div>
   </div>
 
-  <script define:vars={{ pdfPath: deck.assets.pdf, initialPage }}>
+  <script define:vars={{ pdfPath: deck.assets.pdf }}>
     const iframe = document.getElementById('viewer-frame');
+    const footer = document.getElementById('embed-footer');
+    
+    // Check URL parameters client-side (for static sites)
+    const params = new URLSearchParams(window.location.search);
+    const initialPage = params.get('page');
+    const hideFooter = params.get('hideFooter') === 'true';
+    
+    if (hideFooter) {
+      footer.style.display = 'none';
+    }
     
     let viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
     
