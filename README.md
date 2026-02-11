@@ -64,10 +64,10 @@ Example:
 ### WordPress, Astro, and Other Platforms
 
 The embed code is standard HTML and works on:
-- WordPress (use HTML block or Custom HTML widget)
-- Astro (use `<div set:html={embedCode} />`)
-- Static site generators (Markdown with HTML support)
-- Any platform that accepts iframe embeds
+- **WordPress** - Use HTML block or Custom HTML widget
+- **Astro** - Paste iframe code directly into `.astro` components
+- **Static site generators** - Use Markdown with HTML support
+- **Any platform** that accepts iframe embeds
 
 The embedded viewer includes a backlink to ShareSlides (unless `hideFooter=true` is used).
 

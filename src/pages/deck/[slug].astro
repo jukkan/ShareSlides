@@ -379,6 +379,8 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
       iframe.allowFullscreen = true;
       iframe.title = 'Embedded presentation preview';
       
+      // Use smaller preview dimensions for modal display
+      // Actual embed code uses full dimensions (1280×720 or 1920×1080)
       if (currentSize === '720p') {
         iframe.width = '640';
         iframe.height = '360';

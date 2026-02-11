@@ -160,7 +160,7 @@ const siteUrl = Astro.site?.toString() || 'https://slides.jukkan.com';
     
     let viewerSrc = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdfPath)}`;
     
-    // Add page parameter if provided as hash
+    // Add page parameter as hash fragment if provided
     if (initialPage) {
       viewerSrc += `#page=${initialPage}`;
     }
