@@ -1,0 +1,19 @@
+{
+  "slug": "agent-365-vs-openai-frontier",
+  "title": "Microsoft Agent 365 vs OpenAI Frontier - Agent OS Wars",
+  "description": "OpenAI Frontier and Microsoft Agent 365 are competing to become the primary enterprise AI agent platform. OpenAI focuses on vendor neutrality, while Microsoft leverages its ecosystem depth. Despite high projections, both face issues with governance, pricing opacity, and readiness.",
+  "tags": [
+    "AI",
+    "agents",
+    "microsoft",
+    "openai"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/agent-365-vs-openai-frontier/deck.pdf",
+    "cover": "/decks/agent-365-vs-openai-frontier/cover.webp"
+  },
+  "uploadedAt": "2026-02-11T00:00:00Z",
+  "shortId": 30
+}
