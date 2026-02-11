@@ -365,7 +365,8 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     embedPreview.innerHTML = '';
     const previewContainer = document.createElement('div');
     if (currentSize === 'responsive') {
-      previewContainer.style.cssText = 'position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;';
+      // Set explicit width to 100% so the responsive wrapper renders at full modal width
+      previewContainer.style.cssText = 'position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;';
       const iframe = document.createElement('iframe');
       iframe.src = `${siteOrigin}/embed/${deckSlug}`;
       iframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;';
@@ -379,15 +380,32 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
       iframe.allowFullscreen = true;
       iframe.title = 'Embedded presentation preview';
       
-      // Use smaller preview dimensions for modal display
-      // Actual embed code uses full dimensions (1280×720 or 1920×1080)
-      if (currentSize === '720p') {
-        iframe.width = '640';
-        iframe.height = '360';
-      } else if (currentSize === '1080p') {
-        iframe.width = '800';
-        iframe.height = '450';
+      // Calculate available width in the preview container
+      // Modal max-width is 800px, minus body padding (1.5rem × 2) and preview padding (1rem × 2)
+      const modalMaxWidth = 800;
+      const bodyPadding = 48; // 1.5rem × 2 in pixels (1.5 × 16 × 2)
+      const previewPadding = 32; // 1rem × 2 in pixels
+      const availableWidth = modalMaxWidth - bodyPadding - previewPadding;
+      
+      // Define original dimensions for each size
+      let width = 1280;
+      let height = 720;
+      if (currentSize === '1080p') {
+        width = 1920;
+        height = 1080;
       }
+      
+      // Scale down to fit available width if necessary
+      let previewWidth = width;
+      let previewHeight = height;
+      if (width > availableWidth) {
+        const scaleFactor = availableWidth / width;
+        previewWidth = Math.floor(width * scaleFactor);
+        previewHeight = Math.floor(height * scaleFactor);
+      }
+      
+      iframe.width = String(previewWidth);
+      iframe.height = String(previewHeight);
       
       previewContainer.appendChild(iframe);
     }
@@ -924,6 +942,9 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .embed-preview > div {
+    width: 100%;
   }
 
   .btn.copied {
