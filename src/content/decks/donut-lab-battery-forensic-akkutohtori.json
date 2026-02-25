@@ -1,0 +1,18 @@
+{
+  "slug": "donut-lab-battery-forensic-akkutohtori",
+  "title": "The Donut Lab Files: Battery Forensics by Akkutohtori",
+  "description": "Two YouTube videos by Akkutohtori examine the controversy surrounding Donut Lab's claims of developing a revolutionary solid-state battery capable of extreme charging speeds and longevity. The expert analysis scrutinizes test reports from the VTT Technical Research Centre of Finland, suggesting that while the battery performs well, its voltage curves closely resemble standard NMC chemistry rather than an entirely new physics. Key technical discrepancies are highlighted, including the omission of mass measurements in official reports and the use of unusual charging protocols that may mask certain performance limitations. The narrative traces the technology's origin to CT Coating and Nordic Nano Group, questioning how a small startup could outpace global giants like Tesla or Samsung. Ultimately, the author remains skeptical, suggesting the marketing may rely on extrapolated data and strategic testing rather than a fundamental scientific breakthrough. Sources: https://youtu.be/OwaMOaQNafs, https://www.youtube.com/watch?v=mocbIUJmAIk",
+  "tags": [
+    "battery",
+    "ev",
+    "physics"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/donut-lab-battery-forensic-akkutohtori/deck.pdf",
+    "cover": "/decks/donut-lab-battery-forensic-akkutohtori/cover.webp"
+  },
+  "uploadedAt": "2026-02-25T00:00:00Z",
+  "shortId": 31
+}
