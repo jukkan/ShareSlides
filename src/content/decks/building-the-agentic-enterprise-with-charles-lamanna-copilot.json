@@ -1,0 +1,20 @@
+{
+  "slug": "building-the-agentic-enterprise-with-charles-lamanna-copilot",
+  "title": "Building the Agentic Enterprise - Charles Lamanna (Copilot Notebooks)",
+  "description": "Summary of Charles Lamanna's GeekWire session on enterprise AI agents. Lamanna, Microsoft's EVP of Agents and Business Applications, covers how agents have moved beyond chat into action, his recommended adoption pattern of broad AI access plus focused top-down projects, measuring ROI against real business outcomes, and the coming shifts in team design and computer use. Generated with PowerPoint Agent in Microsoft Copilot Notebooks from the session transcript.",
+  "tags": [
+    "AI",
+    "agents",
+    "microsoft",
+    "copilot",
+    "enterprise"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/building-the-agentic-enterprise-with-charles-lamanna-copilot/deck.pdf",
+    "cover": "/decks/building-the-agentic-enterprise-with-charles-lamanna-copilot/cover.webp"
+  },
+  "uploadedAt": "2026-04-05T00:00:00Z",
+  "shortId": 32
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "building-the-agentic-enterprise-with-charles-lamanna-notebooklm",
+  "title": "Building the Agentic Enterprise - Charles Lamanna (NotebookLM)",
+  "description": "Summary of Charles Lamanna's GeekWire session on enterprise AI agents. Lamanna, Microsoft's EVP of Agents and Business Applications, covers how agents have moved beyond chat into action, his recommended adoption pattern of broad AI access plus focused top-down projects, measuring ROI against real business outcomes, and the coming shifts in team design and computer use. Generated with Google NotebookLM's slide generation tool from the session transcript.",
+  "tags": [
+    "AI",
+    "agents",
+    "microsoft",
+    "notebooklm",
+    "enterprise"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/building-the-agentic-enterprise-with-charles-lamanna-notebooklm/deck.pdf",
+    "cover": "/decks/building-the-agentic-enterprise-with-charles-lamanna-notebooklm/cover.webp"
+  },
+  "uploadedAt": "2026-04-05T00:00:00Z",
+  "shortId": 33
+}
