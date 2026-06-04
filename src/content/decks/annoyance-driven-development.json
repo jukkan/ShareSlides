@@ -1,0 +1,19 @@
+{
+  "slug": "annoyance-driven-development",
+  "title": "Annoyance-Driven Development",
+  "description": "How the creator of OpenClaw builds the thing that builds the thing. Peter Steinberger argues that annoyance is the best signal for automation, so developers should build internal tools that help AI agents work autonomously. By automating the loop - triage, cross-platform testing, and visual verification - the role shifts from babysitting to high-level approval. NotebookLM summary from the Microsoft Build 2026 session by Peter Steinberger, the Clawfather.",
+  "tags": [
+    "ai",
+    "agents",
+    "coding"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/annoyance-driven-development/deck.pdf",
+    "cover": "/decks/annoyance-driven-development/cover.webp",
+    "pptx": "/decks/annoyance-driven-development/deck.pptx"
+  },
+  "uploadedAt": "2026-06-04T00:00:00Z",
+  "shortId": 31
+}
