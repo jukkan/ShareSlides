@@ -21,7 +21,13 @@ const langNames: Record<string, string> = {
 const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
 ---
 
-<BaseLayout title={deck.title}>
+<BaseLayout
+  title={deck.title}
+  description={deck.description || `A slide deck on ShareSlides: ${deck.title}`}
+  socialImage={deck.assets.cover}
+  socialImageAlt={`Cover image for ${deck.title}`}
+  socialType="article"
+>
   <div class="container" data-deck-category={deckCategory}>
     <nav class="breadcrumb">
       <a href="/">← Back to all decks</a>
