@@ -5,6 +5,7 @@
  * Processes public/decks/* to ensure each deck has:
  * - deck.pdf (converted from deck.pptx if missing)
  * - cover.webp (generated from deck.pdf page 1 if missing)
+ * - cover.jpg (social preview fallback generated from cover.webp)
  * 
  * Requires: LibreOffice (soffice), pdftoppm (poppler-utils), cwebp (libwebp)
  * On Windows, these are expected to be available via WSL.
@@ -15,6 +16,7 @@ import { existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { execSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const PROJECT_ROOT = join(__dirname, '..');
@@ -28,6 +30,8 @@ const results = {
   pdfFailed: [],
   coverGenerated: [],
   coverFailed: [],
+  socialGenerated: [],
+  socialFailed: [],
   skipped: [],
 };
 
@@ -260,6 +264,29 @@ async function generateCover(deckDir, slug) {
 }
 
 /**
+ * Generate cover.jpg from cover.webp for social previews
+ */
+async function generateSocialJpeg(deckDir) {
+  const webpPath = join(deckDir, 'cover.webp');
+  const jpgPath = join(deckDir, 'cover.jpg');
+
+  if (!existsSync(webpPath)) {
+    return false;
+  }
+
+  try {
+    await sharp(webpPath)
+      .jpeg({ quality: 88, mozjpeg: true })
+      .toFile(jpgPath);
+
+    return existsSync(jpgPath);
+  } catch (err) {
+    console.error(`    ❌ JPEG conversion failed: ${err.message}`);
+    return false;
+  }
+}
+
+/**
  * Clean up stray cover-*.png files
  */
 async function cleanupPngFiles(deckDir) {
@@ -286,6 +313,7 @@ async function processDeck(deckDir, slug) {
   const hasPdf = existsSync(join(deckDir, 'deck.pdf'));
   const hasPptx = existsSync(join(deckDir, 'deck.pptx'));
   const hasCover = existsSync(join(deckDir, 'cover.webp'));
+  const hasSocialCover = existsSync(join(deckDir, 'cover.jpg'));
   
   let pdfReady = hasPdf;
   
@@ -307,6 +335,12 @@ async function processDeck(deckDir, slug) {
     const success = await generateCover(deckDir, slug);
     if (success) {
       results.coverGenerated.push(slug);
+      const socialSuccess = await generateSocialJpeg(deckDir);
+      if (socialSuccess) {
+        results.socialGenerated.push(slug);
+      } else {
+        results.socialFailed.push(slug);
+      }
     } else {
       results.coverFailed.push(slug);
     }
@@ -315,6 +349,16 @@ async function processDeck(deckDir, slug) {
     results.skipped.push(slug);
   } else if (hasCover) {
     console.log(`  ✓ cover.webp already exists`);
+    if (!hasSocialCover) {
+      const socialSuccess = await generateSocialJpeg(deckDir);
+      if (socialSuccess) {
+        results.socialGenerated.push(slug);
+      } else {
+        results.socialFailed.push(slug);
+      }
+    } else {
+      console.log(`  ✓ cover.jpg already exists`);
+    }
   }
 }
 
@@ -345,14 +389,24 @@ function printSummary() {
     console.log(`\n❌ Cover Generation Failures (${results.coverFailed.length}):`);
     results.coverFailed.forEach(s => console.log(`   • ${s}`));
   }
+
+  if (results.socialGenerated.length > 0) {
+    console.log(`\n✅ Social JPEGs Generated (${results.socialGenerated.length}):`);
+    results.socialGenerated.forEach(s => console.log(`   • ${s}`));
+  }
+
+  if (results.socialFailed.length > 0) {
+    console.log(`\n❌ Social JPEG Failures (${results.socialFailed.length}):`);
+    results.socialFailed.forEach(s => console.log(`   • ${s}`));
+  }
   
   if (results.skipped.length > 0) {
     console.log(`\n⏭️  Skipped (no source files) (${results.skipped.length}):`);
     results.skipped.forEach(s => console.log(`   • ${s}`));
   }
   
-  const totalSuccess = results.pdfConverted.length + results.coverGenerated.length;
-  const totalFailed = results.pdfFailed.length + results.coverFailed.length;
+  const totalSuccess = results.pdfConverted.length + results.coverGenerated.length + results.socialGenerated.length;
+  const totalFailed = results.pdfFailed.length + results.coverFailed.length + results.socialFailed.length;
   
   console.log('\n' + '-'.repeat(60));
   console.log(`Total: ${totalSuccess} successful, ${totalFailed} failed, ${results.skipped.length} skipped`);

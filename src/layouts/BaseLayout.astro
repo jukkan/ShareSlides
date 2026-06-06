@@ -18,6 +18,13 @@ const {
 } = Astro.props;
 
 const socialImageUrl = socialImage ? new URL(socialImage, Astro.site).href : undefined;
+const socialImageType = socialImage
+  ? socialImage.toLowerCase().endsWith('.jpg') || socialImage.toLowerCase().endsWith('.jpeg')
+    ? 'image/jpeg'
+    : socialImage.toLowerCase().endsWith('.png')
+      ? 'image/png'
+      : 'image/webp'
+  : undefined;
 ---
 
 <!DOCTYPE html>
@@ -35,7 +42,7 @@ const socialImageUrl = socialImage ? new URL(socialImage, Astro.site).href : und
     <meta property="og:type" content={socialType} />
     {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
     {socialImageUrl && <meta property="og:image:secure_url" content={socialImageUrl} />}
-    {socialImageUrl && <meta property="og:image:type" content="image/webp" />}
+    {socialImageUrl && socialImageType && <meta property="og:image:type" content={socialImageType} />}
     {socialImageUrl && socialImageAlt && <meta property="og:image:alt" content={socialImageAlt} />}
     <meta name="twitter:card" content={socialImageUrl ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />

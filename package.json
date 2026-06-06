@@ -13,5 +13,8 @@
   "dependencies": {
     "astro": "^5.16.11",
     "pdfjs-dist": "^5.4.530"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
   }
 }
