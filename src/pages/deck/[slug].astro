@@ -14,6 +14,7 @@ if (!deck) {
 }
 
 const deckCategory = deck.category || 'Organic';
+const preferredSocialImage = deck.assets.cover.replace(/\.webp$/i, '.jpg');
 
 const langNames: Record<string, string> = {
   en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', fi: 'Suomi'
@@ -21,7 +22,13 @@ const langNames: Record<string, string> = {
 const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
 ---
 
-<BaseLayout title={deck.title}>
+<BaseLayout
+  title={deck.title}
+  description={deck.description || `A slide deck on ShareSlides: ${deck.title}`}
+  socialImage={preferredSocialImage}
+  socialImageAlt={`Cover image for ${deck.title}`}
+  socialType="article"
+>
   <div class="container" data-deck-category={deckCategory}>
     <nav class="breadcrumb">
       <a href="/">← Back to all decks</a>
