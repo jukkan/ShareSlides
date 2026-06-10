@@ -1,0 +1,21 @@
+{
+  "slug": "no-code-agent-builders-market",
+  "title": "The No-Code Agent Builder Market, Mid-2026",
+  "description": "An independent two-axis scoring of the no-code agent builder market as of mid-2026. The deck maps incumbents and challengers by execution and disruption, highlighting Microsoft, Salesforce, Google, and ServiceNow as the market shapers while examining how pricing, governance, and distribution are reshaping enterprise agent adoption.",
+  "tags": [
+    "ai",
+    "agents",
+    "market",
+    "microsoft",
+    "copilot"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/no-code-agent-builders-market/deck.pdf",
+    "cover": "/decks/no-code-agent-builders-market/cover.webp",
+    "pptx": "/decks/no-code-agent-builders-market/deck.pptx"
+  },
+  "uploadedAt": "2026-06-10T00:00:00Z",
+  "shortId": 32
+}
