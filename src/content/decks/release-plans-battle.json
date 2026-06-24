@@ -1,0 +1,21 @@
+{
+  "slug": "release-plans-battle",
+  "title": "Release Plans Battle",
+  "description": "A comparison of Microsoft's default Release Planner website experience with community-built alternatives powered by the same release plan API data, including a Power BI report, a GitHub Pages site, and a Power Apps Code App sample.",
+  "tags": [
+    "microsoft",
+    "power platform",
+    "dynamics 365",
+    "release plans",
+    "code apps"
+  ],
+  "language": "en",
+  "category": "Organic",
+  "assets": {
+    "pdf": "/decks/release-plans-battle/deck.pdf",
+    "cover": "/decks/release-plans-battle/cover.webp",
+    "pptx": "/decks/release-plans-battle/deck.pptx"
+  },
+  "uploadedAt": "2026-06-24T00:00:00Z",
+  "shortId": 34
+}
