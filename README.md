@@ -84,6 +84,23 @@ npm install
 npm run dev
 ```
 
+## Unlisted Decks
+
+A deck can be marked as **unlisted** so it is excluded from the homepage grid, tag filters, and search — but remains accessible to anyone with the direct link. This is a soft visibility control (not access control), similar to how YouTube unlisted videos work.
+
+To make a deck unlisted, add `"unlisted": true` to its metadata file:
+
+```json
+{
+  "slug": "my-unlisted-deck",
+  "unlisted": true,
+  "title": "...",
+  ...
+}
+```
+
+The deck's page at `/deck/<slug>` is still generated and publicly reachable; it simply won't be surfaced through browsing or search.
+
 ## New Deck Intake
 
 1. Open a GitHub issue with the **Add new deck** template (see [.github/ISSUE_TEMPLATE/new-deck.yml](.github/ISSUE_TEMPLATE/new-deck.yml)), fill in the slug/title/metadata, and attach the PPTX/PDF (zip is fine) so the files live alongside the request.
