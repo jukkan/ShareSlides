@@ -30,6 +30,7 @@ export interface Deck {
   tags: string[];
   language: string;
   category?: DeckCategory;
+  unlisted?: boolean;
   assets: DeckAssets;
   source?: DeckSource;
   legacyStats?: LegacyStatsWithMeta;

@@ -69,13 +69,20 @@ export function getDeckByShortId(shortId: number): Deck | undefined {
   return getAllDecks().find((deck) => deck.shortId === shortId);
 }
 
-export function getAllTags(): string[] {
-  const tags = getAllDecks().flatMap((deck) => deck.tags);
+/**
+ * Get all listed (non-unlisted) decks, sorted by uploadedAt (newest first)
+ */
+export function getListedDecks(): Deck[] {
+  return getAllDecks().filter((deck) => !deck.unlisted);
+}
+
+export function getListedTags(): string[] {
+  const tags = getListedDecks().flatMap((deck) => deck.tags);
   return [...new Set(tags)].sort();
 }
 
 export function getTagsByCategory(category: 'Organic' | 'AI'): string[] {
-  const tags = getAllDecks()
+  const tags = getListedDecks()
     .filter(deck => (deck.category || 'Organic') === category)
     .flatMap((deck) => deck.tags);
   return [...new Set(tags)].sort();
