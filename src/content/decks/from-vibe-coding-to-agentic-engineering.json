@@ -1,13 +1,13 @@
 {
   "slug": "from-vibe-coding-to-agentic-engineering",
   "title": "From Vibe Coding to Agentic Engineering",
-  "description": "A response to Andrej Karpathy's Sequoia Ascent 2026 talk, arguing that December 2025 marked the shift from prototype-friendly vibe coding to production-grade agentic engineering. The deck contrasts Software 1.0, 2.0, and 3.0, explains why verifiability shapes AI capability, and outlines the spec-first, guardrail-heavy practices needed to build secure AI systems.",
+  "description": "A summary of Andrej Karpathy's Sequoia Ascent 2026 talk arguing that December 2025 marked the shift from prototype-friendly vibe coding to production-grade agentic engineering. The deck contrasts Software 1.0, 2.0, and 3.0, explains why verifiability shapes AI capability, and outlines the spec-first, guardrail-heavy practices needed to build secure AI systems.",
   "tags": [
     "ai",
     "agents",
     "engineering",
     "karpathy",
-    "software"
+    "vibe coding"
   ],
   "language": "en",
   "category": "AI",
