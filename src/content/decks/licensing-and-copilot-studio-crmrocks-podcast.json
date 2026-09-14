@@ -1,0 +1,24 @@
+{
+  "slug": "licensing-and-copilot-studio-crmrocks-podcast",
+  "title": "Microsoft Licensing in the Copilot Credits Era - CRM Rocks Podcast",
+  "description": "AI-generated visual companion to CRM Rocks Episode 165, in which Markus Erlandsson and Jukka Niiranen examine the shift from predictable per-user licensing to consumption-based AI economics. It covers Copilot credits, Copilot Studio harnesses, Work IQ, autonomous-agent governance, and the unresolved cost model for AI agents.",
+  "tags": [
+    "microsoft licensing",
+    "copilot credits",
+    "copilot studio",
+    "crm rocks",
+    "ai agents",
+    "work iq"
+  ],
+  "language": "en",
+  "category": "AI",
+  "assets": {
+    "pdf": "/decks/licensing-and-copilot-studio-crmrocks-podcast/deck.pdf",
+    "cover": "/decks/licensing-and-copilot-studio-crmrocks-podcast/cover.webp"
+  },
+  "source": {
+    "episodeUrl": "https://crmrocks.com/2026/09/14/licensing-and-copilot-studio-with-jukka-niiranen/"
+  },
+  "uploadedAt": "2026-09-14T00:00:00Z",
+  "shortId": 36
+}

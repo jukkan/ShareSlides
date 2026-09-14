@@ -7,6 +7,7 @@ export interface DeckAssets {
 export interface DeckSource {
   slideshareUrl?: string;
   downloadUrl?: string;
+  episodeUrl?: string;
 }
 
 export interface LegacyStats {

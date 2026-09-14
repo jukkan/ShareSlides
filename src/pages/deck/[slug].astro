@@ -50,6 +50,12 @@ const langDisplay = langNames[deck.language] || deck.language.toUpperCase();
           <p class="description">{deck.description}</p>
         )}
 
+        {deck.source?.episodeUrl && (
+          <p class="description">
+            Find the full podcast episode at <a href={deck.source.episodeUrl}>crmrocks.com</a>.
+          </p>
+        )}
+
         <div class="tags">
           {deck.tags.map(tag => (
             <a href={`/?tag=${tag}`} class="tag">{tag}</a>
