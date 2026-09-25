@@ -1,0 +1,20 @@
+{
+  "slug": "governance-as-code-nordic-summit-2026",
+  "title": "Governance as Code for Power Platform - Nordic Summit 2026",
+  "description": "Jukka Niiranen's Nordic Summit 2026 session deck on using code to operate Power Platform governance. It moves from PAC CLI inventory queries and community tools to a governance ledger with repeatable captures, rules, findings, human decisions, and later verification.",
+  "tags": [
+    "power platform",
+    "governance as code",
+    "pac cli",
+    "power platform inventory",
+    "nordic summit"
+  ],
+  "language": "en",
+  "category": "Organic",
+  "assets": {
+    "pdf": "/decks/governance-as-code-nordic-summit-2026/deck.pdf",
+    "cover": "/decks/governance-as-code-nordic-summit-2026/cover.webp"
+  },
+  "uploadedAt": "2026-09-25T00:00:00Z",
+  "shortId": 39
+}
